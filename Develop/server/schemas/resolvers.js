@@ -15,16 +15,11 @@ const resolvers = {
       throw new AuthenticationError('Not logged in')
     },
     getSingleUser: async (parent, args, context) => {
-      console.log('parent', parent)
-      console.log('args', args)
-      console.log('context', context)
       if (context.user) {
-        //   const userData = await User.findOne({ _id: context.user._id })
-        //     .select('-__v -password')
         const userData = await User.findOne({
           $or: [
-            { _id: context.user ? context.user._id : params.id },
-            { username: params.username }
+            { _id: context.user ? context.user._id : args.id },
+            { username: args.username }
           ]
         }).populate('savedBooks')
         return userData
