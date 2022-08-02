@@ -33,12 +33,9 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args) => {
-        console.log('here1')
+      console.log('here1')
       const user = await User.create(args)
-      console.log('here')
       const token = signToken(user)
-      console.log("token", token)
-
       return { token, user }
     },
     login: async (parent, { email, password }) => {
@@ -58,8 +55,8 @@ const resolvers = {
       return { token, user }
     },
     saveBook: async (parent, args) => {
-        console.log("parent", parent)
-        console.log("args", args)
+      console.log('parent', parent)
+      console.log('args', args)
       try {
         const updatedUser = await User.findOneAndUpdate(
           { _id: args._id },
