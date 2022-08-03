@@ -28,7 +28,6 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args) => {
-      console.log('here1')
       const user = await User.create(args)
       const token = signToken(user)
       return { token, user }
@@ -50,8 +49,6 @@ const resolvers = {
       return { token, user }
     },
     saveBook: async (parent, args) => {
-      console.log('parent', parent)
-      console.log('args', args)
       try {
         const updatedUser = await User.findOneAndUpdate(
           { _id: args._id },
@@ -63,6 +60,17 @@ const resolvers = {
         console.log(err)
         throw new Error('unable to update user for saveBook')
       }
+    },
+    deleteBook: async (parent, args) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: args._id },
+        { $pull: { savedBooks: { bookId: args.bookId } } },
+        { new: true }
+      )
+      if (!updatedUser) {
+        throw new Error('unable to update user for deleteBook')
+      }
+      return updatedUser
     }
   }
 }
