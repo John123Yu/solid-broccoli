@@ -39,7 +39,6 @@ module.exports = {
     } catch(err){
       console.log('Invalid token:', err)
     }
-
     // return updated request object
     return req
   }
